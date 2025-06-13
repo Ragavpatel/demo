@@ -11,7 +11,7 @@ This project contains automated tests for verifying core patient management func
 3. **Clone the Repository**
 
 ```bash
-git clone <your_repo_url>
+git clone https://github.com/Ragavpatel/demo.git
 cd DemoTest
 
 ```
