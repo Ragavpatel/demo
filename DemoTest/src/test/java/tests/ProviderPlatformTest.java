@@ -40,6 +40,7 @@ public class ProviderPlatformTest {
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         String alertText = alert.getText();
         Assert.assertEquals(alertText, "Invalid login", "Alert message mismatch.");
+        alert.accept();
     }
 
     @Test(priority = 2)
@@ -63,6 +64,7 @@ public class ProviderPlatformTest {
         Alert alert = wait.until(ExpectedConditions.alertIsPresent());
         String alertText = alert.getText();
         Assert.assertEquals(alertText, "Invalid login", "Alert message mismatch.");
+        alert.accept();
     }
 
     @Test(priority = 4)
