@@ -18,9 +18,9 @@ cd DemoTest
 
 ## 🚀 Running Tests
 ``` 
-mvn test                                        - run all tests
-mvn -Dtest=AddPatientDOBTest test               - run a specific test class
-mvn -Dtest=AddPatientDOBTest#loginTest test     - run a specific test method 
+mvn test                                                           - run all tests
+mvn test -Dtest=ProviderPlatformTest                               - run a specific test class
+mvn test -Dtest=ProviderPlatformTest#loginWithValidCredentials     - run a specific test method
 
 ```
 
