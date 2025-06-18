@@ -1,33 +1,18 @@
 package tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
+import base.BaseTest;
 
-import java.time.Duration;
 import java.util.Random;
 
-public class ProviderPlatformTest {
+public class ProviderPlatformTest extends BaseTest {
 
-    WebDriver driver;
-    WebDriverWait wait;
-
-    @BeforeClass
-    public void setup() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-        driver.get("https://qa-takehome.dtxplus.com/");
-
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        
-    }
+    SoftAssert softAssert = new SoftAssert();
 
     @Test(priority = 1)
     public void loginWithInvalidUsername() {
@@ -45,14 +30,23 @@ public class ProviderPlatformTest {
 
     @Test(priority = 2)
     public void loginWithInvalidPassword() {
+
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("password")).clear();
         driver.findElement(By.id("username")).sendKeys("dtxplus");
         driver.findElement(By.id("password")).sendKeys("wrongpassword");
         driver.findElement(By.xpath("//button[text()='Login']")).click();
 
-        Assert.assertFalse(driver.getPageSource().contains("Add Patient"), 
+        softAssert.assertFalse(driver.getPageSource().contains("Add Patient"),
                 "Login should fail with invalid password.");
+
+        WebElement logoutButton = driver.findElement(By.id("logout"));
+
+        if (logoutButton.isDisplayed()) {
+            logoutButton.click();
+        }
+
+        softAssert.assertAll();
     }
 
     @Test(priority = 3)
@@ -167,12 +161,5 @@ public class ProviderPlatformTest {
                         driver.getPageSource().contains("Login") ||
                         driver.findElement(By.id("username")).isDisplayed(),
                         "Should be redirected to login page after logout.");
-    }
-
-    @AfterClass
-    public void teardown() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }
